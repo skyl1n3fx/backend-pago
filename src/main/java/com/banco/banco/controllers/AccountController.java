@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.banco.banco.models.AccountModel;
+import com.banco.banco.models.PayModel;
 import com.banco.banco.services.AccountService;
 
 @RestController
@@ -53,8 +54,8 @@ public class AccountController {
     }
 
     @PostMapping("/pago")
-    public String postBody(@RequestBody String name){
-        return "Hola " + name; 
+    public String postBody(@RequestBody PayModel pay){
+        return this.accountService.pago(pay.getNumeroCuenta(), pay.getTotal()); 
         // TODO: Investigar como hacer HTTP Response 
     }
 

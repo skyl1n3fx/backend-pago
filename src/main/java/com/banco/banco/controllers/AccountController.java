@@ -1,9 +1,13 @@
 package com.banco.banco.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,9 +58,10 @@ public class AccountController {
     }
 
     @PostMapping("/pago")
-    public String postBody(@RequestBody PayModel pay){
-        return this.accountService.pago(pay.getNumeroCuenta(), pay.getTotal()); 
-        // TODO: Investigar como hacer HTTP Response 
+    public ResponseEntity<Object> postBody(@RequestBody PayModel pay){ 
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", this.accountService.pago(pay.getNumeroCuenta(), pay.getTotal()));
+        return new ResponseEntity<>(map, HttpStatus.OK); 
     }
 
 }

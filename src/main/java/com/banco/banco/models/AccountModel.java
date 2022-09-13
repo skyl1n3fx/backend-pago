@@ -4,7 +4,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cuenta")
+@Table(name = "cuenta_bancaria")
 public class AccountModel {
     
     @Id
@@ -12,10 +12,18 @@ public class AccountModel {
     @Column(unique = true, nullable = false)
     private Long id;
 
-
+    @Column(unique = true, nullable = false)
     private String numeroCuenta;
+
+    @Column(unique = true, nullable = true)
+    private String rut;
+
+    @Column(unique = true, nullable = true)
+    private String pasaporte;
+
+    private String nombreTitular;
     private String cvv;
-    private Date fechaVencimiento;
+    private Date fechaExpiracion;
     private Integer saldo;
 
 
@@ -27,6 +35,14 @@ public class AccountModel {
 
     public Long getId(){
         return id;
+    }
+
+    public void setNombreTitular(String nombre){
+        this.nombreTitular = nombre;
+    }
+
+    public String getNombreTitular(){
+        return this.nombreTitular;
     }
 
     public void setNumeroCuenta(String nCuenta){
@@ -45,12 +61,12 @@ public class AccountModel {
         return cvv;
     }
 
-    public void setFechaVencimiento(Date fecha){
-        this.fechaVencimiento = fecha;
+    public void setFechaExpiracion(Date fecha){
+        this.fechaExpiracion = fecha;
     }
 
-    public Date getFechaVencimiento(){
-        return fechaVencimiento;
+    public Date getFechaExpiracion(){
+        return fechaExpiracion;
     }
 
     public void setSaldo(Integer saldo){
@@ -61,4 +77,31 @@ public class AccountModel {
         return saldo;
     }
 
+    public void setRut(String rut){
+        this.rut = rut;
+    }
+
+    public String getRut(){
+        return this.rut;
+    }
+
+    public void setPasaporte(String pasaporte){
+        this.pasaporte = pasaporte;
+    }
+
+    public String getPasaporte(){
+        return this.pasaporte;
+    }
+
+    // Método customer que aplica el pago
+    public boolean pagar(Integer total){
+        boolean flag = false;
+        // Validamos si tiene saldo suficiente
+        if(this.saldo >= total){
+            this.saldo = this.saldo - total;
+            flag = true;
+        }
+        return flag;
+    }
+    
 }

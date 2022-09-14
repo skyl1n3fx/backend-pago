@@ -39,19 +39,21 @@ public class AccountService {
         }
     }
 
-    public String pago(String numAccount, Integer total){
+    public int pago(String numAccount, Integer total){
         try {
-            System.out.println("Número de cuenta es " + numAccount);
             ArrayList<AccountModel> lista = this.retrieveAccountByNum(numAccount);
-            System.out.println("Cantidad de cuentas " + lista.size());
             AccountModel cuenta = lista.get(0);
             if(cuenta.pagar(total)){
                 accountRepository.save(cuenta);
-                return "Se realizó el pago con éxito";
+                return 1;
             }
-            return "No tiene saldo suficiente";   
-        } catch (Exception e) {
-            return "La cuenta no existe";
+            return 2;   
+        } catch (IndexOutOfBoundsException e) {
+            // No se encuntra la cuenta bancaria
+            return 3;
+        } catch (Exception e){
+            // Error en la operación 
+            return 0;
         }
     }
 

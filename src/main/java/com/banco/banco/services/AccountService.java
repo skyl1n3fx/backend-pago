@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.banco.banco.models.AccountModel;
+import com.banco.banco.models.PayModel;
 import com.banco.banco.repositories.AccountRepository;
 
 @Service
@@ -39,22 +40,28 @@ public class AccountService {
         }
     }
 
-    public int pago(String numAccount, Integer total){
+    public AccountModel retrieveAccountPay(PayModel tarjeta){
+        return accountRepository.findAccountPay(tarjeta.getNumeroCuenta(), tarjeta.getTitular(), tarjeta.getCvv(), tarjeta.getFechaExpiracion());
+    }
+
+    public int pago(PayModel tarjeta){
         try {
-            ArrayList<AccountModel> lista = this.retrieveAccountByNum(numAccount);
-            AccountModel cuenta = lista.get(0);
-            if(cuenta.pagar(total)){
-                accountRepository.save(cuenta);
-                return 1;
+            AccountModel cuenta = this.retrieveAccountPay(tarjeta);
+            if(cuenta != null){
+                if(cuenta.pagar(tarjeta.getTotal())){
+                    accountRepository.save(cuenta);
+                    return 1;
+                }
+                return 2;   
             }
-            return 2;   
-        } catch (IndexOutOfBoundsException e) {
-            // No se encuntra la cuenta bancaria
             return 3;
         } catch (Exception e){
             // Error en la operación 
+            System.out.println(e.getMessage());
             return 0;
         }
     }
+
+
 
 }

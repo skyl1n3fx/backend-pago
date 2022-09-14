@@ -1,6 +1,4 @@
 package com.banco.banco.models;
-
-import java.util.Date;
 import javax.persistence.*;
 
 @Entity
@@ -23,7 +21,7 @@ public class AccountModel {
 
     private String nombreTitular;
     private String cvv;
-    private Date fechaExpiracion;
+    private String fechaExpiracion;
     private Integer saldo;
 
 
@@ -38,7 +36,7 @@ public class AccountModel {
     }
 
     public void setNombreTitular(String nombre){
-        this.nombreTitular = nombre;
+        this.nombreTitular = nombre.toUpperCase();
     }
 
     public String getNombreTitular(){
@@ -61,11 +59,11 @@ public class AccountModel {
         return cvv;
     }
 
-    public void setFechaExpiracion(Date fecha){
+    public void setFechaExpiracion(String fecha){
         this.fechaExpiracion = fecha;
     }
 
-    public Date getFechaExpiracion(){
+    public String getFechaExpiracion(){
         return fechaExpiracion;
     }
 

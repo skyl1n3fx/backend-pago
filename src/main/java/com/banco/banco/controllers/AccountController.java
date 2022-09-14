@@ -57,21 +57,21 @@ public class AccountController {
         }
     }
 
-    
+
 
     @PostMapping("/pago")
     public ResponseEntity<Object> postBody(@RequestBody PayModel pay){ 
         Map<String, Object> map = new HashMap<>();
         
-        int response = this.accountService.pago(pay.getNumeroCuenta(), pay.getTotal());
+        int response = this.accountService.pago(pay);
         if(response == 1){
             map.put("message", "Pago realizado con éxito.");
             return new ResponseEntity<>(map, HttpStatus.OK);
         }else if(response == 2){
             map.put("message", "No cuenta con saldo suficiente.");
-            return new ResponseEntity<>(map, HttpStatus.OK);
+            return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
         }else if(response == 3){
-            map.put("error", "La tarjeta no existe.");
+            map.put("error", "La tarjeta ingresada no existe.");
             return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
         }
         map.put("error", "No se pudo realizar la operación");

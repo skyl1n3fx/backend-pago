@@ -18,5 +18,3 @@ public interface AccountRepository extends CrudRepository<AccountModel, Long>{
     public abstract AccountModel findAccountPay(@Param("num") String num, @Param("name") String nombre, @Param("cvv") String cvv, @Param("date") String fecha);
     
 }
-
-// @Query("SELECT u FROM User u WHERE u.status = ?1 and u.name = ?2")

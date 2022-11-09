@@ -95,11 +95,20 @@ public class AccountModel {
     public boolean pagar(Integer total){
         boolean flag = false;
         // Validamos si tiene saldo suficiente
-        if(this.saldo >= total){
+        if(this.saldo >= total && total != 0){
             this.saldo = this.saldo - total;
             flag = true;
         }
         return flag;
+    }
+
+    public boolean recibirPago(String numeroCuenta, Integer monto){
+        boolean flag = false;
+        if(this.numeroCuenta.equals(numeroCuenta)){
+            this.saldo = this.saldo + monto;
+            flag = true;
+        }
+        return flag; 
     }
     
 }

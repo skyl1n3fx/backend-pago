@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.banco.banco.models.AccountModel;
 import com.banco.banco.models.PayModel;
+import com.banco.banco.models.ReceivePaymentModel;
 import com.banco.banco.services.AccountService;
 
 @RestController
@@ -44,7 +45,7 @@ public class AccountController {
     }
 
     @GetMapping("/query")
-    public ArrayList<AccountModel> retrieveAccountByNum(@RequestParam("numeroCuenta") String numeroCuenta) {
+    public AccountModel retrieveAccountByNum(@RequestParam("numeroCuenta") String numeroCuenta) {
         return this.accountService.retrieveAccountByNum(numeroCuenta);
     }
 
@@ -81,4 +82,16 @@ public class AccountController {
     
     }
 
+    @CrossOrigin(origins = "*")
+    @PostMapping("/monto")
+    public ResponseEntity<Object> postReceivePayment(@RequestBody ReceivePaymentModel receive){
+        Map<String, Object> map = new HashMap<>();
+        boolean response = this.accountService.recibirPago(receive);
+        if (response){
+            map.put("message", "¡Monto recibido!.");
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
+        map.put("error", "¡No se recibió el monto!.");
+        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST); 
+    }
 }

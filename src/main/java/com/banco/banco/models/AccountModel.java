@@ -93,13 +93,8 @@ public class AccountModel {
 
     // Método customer que aplica el pago
     public boolean pagar(Integer total){
-        boolean flag = false;
-        // Validamos si tiene saldo suficiente
-        if(this.saldo >= total && total != 0){
-            this.saldo = this.saldo - total;
-            flag = true;
-        }
-        return flag;
+        this.saldo = this.saldo - total;
+        return true;
     }
 
     public boolean recibirPago(String numeroCuenta, Integer monto){
